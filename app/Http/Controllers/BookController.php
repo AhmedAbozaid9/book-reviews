@@ -56,7 +56,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return view('books.show', ['book' => $book->load(["reviews" => fn($query) => $query->latest()])]);
     }
 
     /**

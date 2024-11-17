@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $title = $request->input('title');
+        $books = Book::when(
+            $title,
+            fn($query) => $query->title($title)
+        )->get();
+
+        return view('books.index', compact('books'));
     }
 
     /**

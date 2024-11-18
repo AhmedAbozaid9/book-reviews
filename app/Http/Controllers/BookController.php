@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,6 +15,7 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
+
         $title = $request->input('title');
         $filter = $request->input('filter', '');
         $books = Book::when(
@@ -22,8 +23,7 @@ class BookController extends Controller
             fn($query) => $query->title($title)
         );
 
-        $books = match ($filter)
-        {
+        $books = match ($filter) {
 
             'popular-last-month' => $books->popularLastMonth(),
             'popular-last-6months' => $books->popularLast6Months(),
